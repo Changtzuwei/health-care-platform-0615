@@ -3051,7 +3051,7 @@ function updateQuizMenuLabel() {
   if (!label) return;
 
   const topicTitle = getQuizTopicTitle();
-  label.textContent = `目前題庫主題：${topicTitle}。請選擇難度，系統會出這個主題的題目。`;
+  label.textContent = topicTitle;
 }
 
 function getQuestionSet() {
@@ -17048,4 +17048,913 @@ function showPage(pageId) {
     renderAIReportFixed();
   });
 
+})();
+
+/* =========================================================
+   按鈕點擊後短暫停留反黑效果
+   貼在 script.js 最底部
+   ========================================================= */
+document.addEventListener("click", function (event) {
+  const btn = event.target.closest(
+    "#home-page button, #home-page .phoebe-btn, #home-page .phoebe-chat, #home-page .phoebe-score"
+  );
+
+  if (!btn) return;
+
+  btn.classList.add("is-pressed");
+
+  setTimeout(function () {
+    btn.classList.remove("is-pressed");
+  }, 220);
+});
+
+/* =========================================================
+   lock：首頁返回時固定在同一個位置
+   貼在 script.js 最底部
+   ========================================================= */
+(function lockHomePagePosition() {
+  /* 關閉瀏覽器自動記住捲動位置 */
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function isHomeVisible() {
+    const home = document.getElementById("home-page");
+    return home && !home.classList.contains("hidden");
+  }
+
+  function forceHomeTop() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+  }
+
+  function lockHome() {
+    document.body.classList.add("home-layout-locked");
+
+    forceHomeTop();
+
+    /* 多跑幾次，避免圖片或舊 CSS 載入後把版面推下去 */
+    requestAnimationFrame(forceHomeTop);
+    setTimeout(forceHomeTop, 30);
+    setTimeout(forceHomeTop, 120);
+    setTimeout(forceHomeTop, 300);
+  }
+
+  function unlockHome() {
+    document.body.classList.remove("home-layout-locked");
+  }
+
+  /* 包住原本 showPage */
+  const oldShowPage = window.showPage;
+
+  window.showPage = function fixedShowPage(pageId) {
+    let result;
+
+    if (typeof oldShowPage === "function") {
+      result = oldShowPage.apply(this, arguments);
+    } else {
+      document.querySelectorAll(".page").forEach(function (page) {
+        page.classList.add("hidden");
+      });
+
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) targetPage.classList.remove("hidden");
+    }
+
+    if (pageId === "home-page") {
+      lockHome();
+    } else {
+      unlockHome();
+      forceHomeTop();
+    }
+
+    return result;
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (isHomeVisible()) {
+      lockHome();
+    }
+  });
+
+  window.addEventListener("load", function () {
+    if (isHomeVisible()) {
+      lockHome();
+    }
+  });
+
+  window.addEventListener("resize", function () {
+    if (isHomeVisible()) {
+      lockHome();
+    }
+  });
+})();
+
+/* =========================================================
+   FINAL：首頁回來固定為第三張正確版
+   不硬鎖高度、不讓 header 消失、不讓版面跳位
+   貼在 script.js 最底部
+   ========================================================= */
+(function finalHomeLayoutRestore() {
+  if (window.__FINAL_HOME_LAYOUT_RESTORE__) return;
+  window.__FINAL_HOME_LAYOUT_RESTORE__ = true;
+
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function forceTop() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+  }
+
+  function clearBadLock() {
+    document.body.classList.remove("home-layout-locked");
+
+    const home = document.getElementById("home-page");
+    if (home) {
+      home.style.removeProperty("height");
+      home.style.removeProperty("min-height");
+      home.style.removeProperty("max-height");
+      home.style.removeProperty("overflow");
+      home.style.removeProperty("padding");
+      home.style.removeProperty("margin");
+    }
+  }
+
+  function showHeader() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    header.style.setProperty("display", "block", "important");
+    header.style.setProperty("visibility", "visible", "important");
+    header.style.setProperty("opacity", "1", "important");
+
+    header.style.removeProperty("height");
+    header.style.removeProperty("min-height");
+    header.style.removeProperty("max-height");
+    header.style.removeProperty("overflow");
+  }
+
+  function hideHeader() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    header.style.setProperty("display", "none", "important");
+  }
+
+  function hidePage(page) {
+    if (!page) return;
+
+    page.classList.add("hidden");
+    page.setAttribute("aria-hidden", "true");
+
+    page.style.setProperty("display", "none", "important");
+    page.style.setProperty("visibility", "hidden", "important");
+    page.style.setProperty("opacity", "0", "important");
+  }
+
+  function showPageElement(page) {
+    if (!page) return;
+
+    page.classList.remove("hidden");
+    page.removeAttribute("aria-hidden");
+
+    page.style.setProperty("display", "block", "important");
+    page.style.setProperty("visibility", "visible", "important");
+    page.style.setProperty("opacity", "1", "important");
+
+    page.style.removeProperty("height");
+    page.style.removeProperty("min-height");
+    page.style.removeProperty("max-height");
+    page.style.removeProperty("overflow");
+    page.style.removeProperty("padding");
+    page.style.removeProperty("margin");
+  }
+
+  function restoreHomeLayout() {
+    clearBadLock();
+
+    document.body.classList.add("is-home-page");
+    document.body.classList.remove("sub-page-mode");
+
+    showHeader();
+
+    const home = document.getElementById("home-page");
+    if (home) {
+      showPageElement(home);
+    }
+
+    forceTop();
+
+    requestAnimationFrame(forceTop);
+    setTimeout(forceTop, 50);
+    setTimeout(forceTop, 150);
+    setTimeout(forceTop, 300);
+  }
+
+  window.showPage = function showPageFinal(pageId) {
+    const targetPage = document.getElementById(pageId);
+
+    if (!targetPage) {
+      alert("找不到頁面：" + pageId);
+      return false;
+    }
+
+    document.querySelectorAll(".page").forEach(function (page) {
+      hidePage(page);
+    });
+
+    showPageElement(targetPage);
+
+    if (pageId === "home-page") {
+      restoreHomeLayout();
+    } else {
+      clearBadLock();
+
+      document.body.classList.remove("is-home-page");
+      document.body.classList.add("sub-page-mode");
+
+      hideHeader();
+      forceTop();
+    }
+
+    /* 報告頁刷新 */
+    if (pageId === "report-page") {
+      setTimeout(function () {
+        if (typeof window.renderAIReportFinalV2 === "function") {
+          window.renderAIReportFinalV2();
+        }
+
+        if (typeof window.refreshAIReportFinalV2 === "function") {
+          window.refreshAIReportFinalV2();
+        }
+      }, 120);
+    }
+
+    /* 圖表頁刷新 */
+    if (pageId === "chart-page") {
+      setTimeout(function () {
+        if (typeof window.forceRefreshTrendButtons === "function") {
+          window.forceRefreshTrendButtons();
+        }
+      }, 80);
+    }
+
+    return false;
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const home = document.getElementById("home-page");
+
+    if (home && !home.classList.contains("hidden")) {
+      restoreHomeLayout();
+    }
+  });
+
+  window.addEventListener("load", function () {
+    const home = document.getElementById("home-page");
+
+    if (home && !home.classList.contains("hidden")) {
+      restoreHomeLayout();
+    }
+  });
+})();
+/* =========================================================
+   FINAL：首頁狀態守門員
+   偵測到首頁時，強制恢復第二張正常版面
+   ========================================================= */
+(function homeStateGuardFinal() {
+  if (window.__HOME_STATE_GUARD_FINAL__) return;
+  window.__HOME_STATE_GUARD_FINAL__ = true;
+
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function isHomeVisible() {
+    const home = document.getElementById("home-page");
+    if (!home) return false;
+
+    const style = window.getComputedStyle(home);
+
+    return (
+      !home.classList.contains("hidden") &&
+      style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      style.opacity !== "0"
+    );
+  }
+
+  function showHeader() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    header.style.setProperty("display", "block", "important");
+    header.style.setProperty("visibility", "visible", "important");
+    header.style.setProperty("opacity", "1", "important");
+
+    header.style.removeProperty("height");
+    header.style.removeProperty("min-height");
+    header.style.removeProperty("max-height");
+    header.style.removeProperty("overflow");
+  }
+
+  function hideHeader() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    header.style.setProperty("display", "none", "important");
+  }
+
+  function cleanHomeInlineStyle() {
+    const home = document.getElementById("home-page");
+    if (!home) return;
+
+    home.style.removeProperty("height");
+    home.style.removeProperty("min-height");
+    home.style.removeProperty("max-height");
+    home.style.removeProperty("overflow");
+    home.style.removeProperty("padding");
+    home.style.removeProperty("margin");
+    home.style.removeProperty("transform");
+  }
+
+  function forceTop() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+  }
+
+  function syncHomeState() {
+    const homeVisible = isHomeVisible();
+
+    if (homeVisible) {
+      document.body.classList.add("home-force-normal");
+      document.body.classList.add("is-home-page");
+
+      document.body.classList.remove("sub-page-mode");
+      document.body.classList.remove("home-layout-locked");
+
+      showHeader();
+      cleanHomeInlineStyle();
+    } else {
+      document.body.classList.remove("home-force-normal");
+      document.body.classList.remove("is-home-page");
+    }
+  }
+
+  /* 重新包 showPage，避免其他函式把 header 藏掉 */
+  const oldShowPage = window.showPage;
+
+  window.showPage = function guardedShowPage(pageId) {
+    let result;
+
+    if (typeof oldShowPage === "function") {
+      result = oldShowPage.apply(this, arguments);
+    } else {
+      document.querySelectorAll(".page").forEach(function (page) {
+        page.classList.add("hidden");
+        page.style.setProperty("display", "none", "important");
+      });
+
+      const target = document.getElementById(pageId);
+      if (target) {
+        target.classList.remove("hidden");
+        target.style.setProperty("display", "block", "important");
+      }
+    }
+
+    if (pageId === "home-page") {
+      setTimeout(function () {
+        syncHomeState();
+        forceTop();
+      }, 0);
+
+      setTimeout(function () {
+        syncHomeState();
+        forceTop();
+      }, 80);
+
+      setTimeout(function () {
+        syncHomeState();
+        forceTop();
+      }, 200);
+    } else {
+      document.body.classList.remove("home-force-normal");
+      document.body.classList.remove("is-home-page");
+      document.body.classList.add("sub-page-mode");
+      hideHeader();
+      forceTop();
+    }
+
+    return result;
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
+
+  document.addEventListener("DOMContentLoaded", function () {
+    syncHomeState();
+  });
+
+  window.addEventListener("load", function () {
+    syncHomeState();
+  });
+
+  window.addEventListener("resize", function () {
+    syncHomeState();
+  });
+
+  /* 防止其他舊程式碼又把首頁弄歪 */
+  setInterval(function () {
+    if (isHomeVisible()) {
+      syncHomeState();
+    }
+  }, 300);
+})();
+/* =========================================================
+   final：首頁禁止滑動，其他頁面恢復滑動
+   貼在 script.js 最底部
+   ========================================================= */
+(function homeOnlyScrollLockFinal() {
+  if (window.__HOME_ONLY_SCROLL_LOCK_FINAL__) return;
+  window.__HOME_ONLY_SCROLL_LOCK_FINAL__ = true;
+
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function isHomeVisible() {
+    const home = document.getElementById("home-page");
+    if (!home) return false;
+
+    const style = window.getComputedStyle(home);
+
+    return (
+      !home.classList.contains("hidden") &&
+      style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      style.opacity !== "0"
+    );
+  }
+
+  function forceTop() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+  }
+
+  function lockHomeScroll() {
+    document.documentElement.classList.add("home-scroll-locked");
+    document.body.classList.add("home-no-scroll");
+
+    forceTop();
+  }
+
+  function unlockPageScroll() {
+    document.documentElement.classList.remove("home-scroll-locked");
+    document.body.classList.remove("home-no-scroll");
+
+    document.documentElement.style.overflowY = "auto";
+    document.body.style.overflowY = "auto";
+    document.body.style.height = "auto";
+  }
+
+  function syncScrollState() {
+    if (isHomeVisible()) {
+      lockHomeScroll();
+    } else {
+      unlockPageScroll();
+    }
+  }
+
+  const oldShowPage = window.showPage;
+
+  window.showPage = function showPageScrollFixed(pageId) {
+    let result;
+
+    if (typeof oldShowPage === "function") {
+      result = oldShowPage.apply(this, arguments);
+    }
+
+    if (pageId === "home-page") {
+      setTimeout(function () {
+        lockHomeScroll();
+      }, 0);
+
+      setTimeout(function () {
+        lockHomeScroll();
+      }, 100);
+
+      setTimeout(function () {
+        lockHomeScroll();
+      }, 250);
+    } else {
+      unlockPageScroll();
+    }
+
+    return result;
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
+
+  document.addEventListener("DOMContentLoaded", syncScrollState);
+  window.addEventListener("load", syncScrollState);
+  window.addEventListener("resize", syncScrollState);
+
+  /* 防止舊程式碼把首頁滑動狀態改回來 */
+  setInterval(syncScrollState, 500);
+})();
+
+/* =========================================================
+   FINAL：衛教闖關新版進度條、上一題、難度高亮
+   ========================================================= */
+(function quizRedesignPatch() {
+  if (window.__QUIZ_REDESIGN_PATCH__) return;
+  window.__QUIZ_REDESIGN_PATCH__ = true;
+
+  function safeGetQuestionSet() {
+    try {
+      if (typeof getQuestionSet === "function") return getQuestionSet();
+    } catch (e) {}
+    return [];
+  }
+
+  function updateQuizRedesignUI() {
+    const questionSet = safeGetQuestionSet();
+    const total = questionSet.length || 10;
+    const current = Math.min((typeof quizIndex === "number" ? quizIndex : 0) + 1, total);
+    const score = typeof quizScore === "number" ? quizScore : 0;
+    const level = typeof currentLevel === "string" ? currentLevel : "easy";
+    const levelNameMap = { easy: "簡單", medium: "普通", hard: "困難" };
+    const levelName = levelNameMap[level] || "簡單";
+    const topicTitle = typeof getQuizTopicTitle === "function" ? getQuizTopicTitle() : "綜合衛教";
+    const progressText = `🧠 ${topicTitle}｜${levelName}：${score} / ${total} 題`;
+
+    const progress = document.getElementById("quiz-progress");
+    if (progress) progress.textContent = progressText;
+
+    const topicLabel = document.getElementById("quiz-topic-label");
+    if (topicLabel) topicLabel.textContent = topicTitle;
+
+    const topicLabelSide = document.getElementById("quiz-topic-label-side");
+    if (topicLabelSide) topicLabelSide.textContent = topicTitle;
+
+    const currentNumber = document.getElementById("quiz-current-number");
+    if (currentNumber) currentNumber.textContent = current;
+
+    const totalNumber = document.getElementById("quiz-total-number");
+    if (totalNumber) totalNumber.textContent = total;
+
+    const percent = total ? Math.round((Math.max(0, current - 1) / total) * 100) : 0;
+
+    const fill = document.getElementById("quiz-progress-fill");
+    if (fill) fill.style.width = `${percent}%`;
+
+    const percentText = document.getElementById("quiz-progress-percent");
+    if (percentText) percentText.textContent = `${percent}%`;
+
+    document.querySelectorAll(".quiz-level-card").forEach(function (btn) {
+      btn.classList.toggle("active", btn.dataset.level === level);
+    });
+
+    const prevBtn = document.getElementById("quiz-prev-btn");
+    if (prevBtn) prevBtn.disabled = !quizIndex || quizIndex <= 0;
+
+    const nextBtn = document.getElementById("quiz-next-btn");
+    if (nextBtn) nextBtn.disabled = typeof answered !== "undefined" ? !answered : false;
+  }
+
+  const oldLoadQuestion = window.loadQuestion;
+  window.loadQuestion = function patchedLoadQuestion() {
+    if (typeof oldLoadQuestion === "function") oldLoadQuestion.apply(this, arguments);
+    setTimeout(updateQuizRedesignUI, 0);
+  };
+  try { loadQuestion = window.loadQuestion; } catch (e) {}
+
+  const oldCheckAnswer = window.checkAnswer;
+  window.checkAnswer = function patchedCheckAnswer(choice) {
+    if (typeof oldCheckAnswer === "function") oldCheckAnswer.apply(this, arguments);
+    setTimeout(updateQuizRedesignUI, 0);
+  };
+  try { checkAnswer = window.checkAnswer; } catch (e) {}
+
+  const oldNextQuestion = window.nextQuestion;
+  window.nextQuestion = function patchedNextQuestion() {
+    if (typeof answered !== "undefined" && !answered) return;
+    if (typeof oldNextQuestion === "function") oldNextQuestion.apply(this, arguments);
+    setTimeout(updateQuizRedesignUI, 0);
+  };
+  try { nextQuestion = window.nextQuestion; } catch (e) {}
+
+  window.prevQuestion = function prevQuestion() {
+    if (typeof quizIndex === "undefined") return;
+    if (quizIndex <= 0) return;
+    quizIndex--;
+    answered = false;
+    if (typeof loadQuestion === "function") loadQuestion();
+    updateQuizRedesignUI();
+  };
+
+  const oldStartQuiz = window.startQuiz;
+  window.startQuiz = function patchedStartQuiz(level) {
+    if (typeof oldStartQuiz === "function") oldStartQuiz.apply(this, arguments);
+    setTimeout(updateQuizRedesignUI, 100);
+  };
+  try { startQuiz = window.startQuiz; } catch (e) {}
+
+  document.addEventListener("DOMContentLoaded", updateQuizRedesignUI);
+})();
+
+/* =========================================================
+   衛教知識庫：把 emoji icon 換成手繪 SVG
+   貼在 script.js 最底部
+   ========================================================= */
+(function replaceEduEmojiWithHandDrawnIcons() {
+  if (window.__EDU_HANDDRAWN_ICONS__) return;
+  window.__EDU_HANDDRAWN_ICONS__ = true;
+
+  const icons = {
+    "first-aid": `
+      <svg viewBox="0 0 120 90">
+        <rect x="18" y="35" width="70" height="30" rx="6" fill="#f8fbff" stroke="#55616a" stroke-width="3"/>
+        <path d="M35 35 L47 22 H70 L82 35" fill="#e9f2fa" stroke="#55616a" stroke-width="3"/>
+        <rect x="82" y="45" width="18" height="20" rx="3" fill="#f8fbff" stroke="#55616a" stroke-width="3"/>
+        <circle cx="35" cy="69" r="7" fill="#6f7c86"/>
+        <circle cx="80" cy="69" r="7" fill="#6f7c86"/>
+        <path d="M60 39 v18 M51 48 h18" stroke="#d85858" stroke-width="5" stroke-linecap="round"/>
+        <path d="M22 30 c10-8 22-10 36-8" stroke="#d9b38c" stroke-width="2" fill="none"/>
+      </svg>
+    `,
+
+    "trauma-care": `
+      <svg viewBox="0 0 120 90">
+        <rect x="28" y="35" width="64" height="24" rx="12" fill="#eac49b" stroke="#7c5d43" stroke-width="3" transform="rotate(-24 60 47)"/>
+        <path d="M48 42 h25" stroke="#8c6b50" stroke-width="2" transform="rotate(-24 60 47)"/>
+        <circle cx="55" cy="44" r="2" fill="#8c6b50"/>
+        <circle cx="65" cy="49" r="2" fill="#8c6b50"/>
+      </svg>
+    `,
+
+    "home-care": `
+      <svg viewBox="0 0 120 90">
+        <path d="M25 52 L60 25 L95 52" fill="none" stroke="#8d5b3e" stroke-width="4" stroke-linecap="round"/>
+        <rect x="35" y="50" width="50" height="30" rx="4" fill="#f3d9b7" stroke="#8d5b3e" stroke-width="3"/>
+        <rect x="55" y="61" width="14" height="19" fill="#d7b28b" stroke="#8d5b3e" stroke-width="2"/>
+        <circle cx="83" cy="39" r="9" fill="#a6c68f"/>
+        <path d="M82 47 v18" stroke="#6f8a5d" stroke-width="3"/>
+        <path d="M27 72 c16 6 49 6 66 0" stroke="#d9b38c" stroke-width="2" fill="none"/>
+      </svg>
+    `,
+
+    "tube-care": `
+      <svg viewBox="0 0 120 90">
+        <path d="M37 20 L80 63" stroke="#77b989" stroke-width="8" stroke-linecap="round"/>
+        <path d="M35 22 L82 69" stroke="#6fc2df" stroke-width="3" stroke-linecap="round"/>
+        <rect x="71" y="58" width="18" height="8" rx="3" fill="#e9f5f0" stroke="#5d9270" stroke-width="2" transform="rotate(45 80 62)"/>
+        <path d="M27 73 c20 7 45 7 66 0" stroke="#d9b38c" stroke-width="2" fill="none"/>
+      </svg>
+    `,
+
+    "postpartum-care": `
+      <svg viewBox="0 0 120 90">
+        <circle cx="62" cy="30" r="13" fill="#f0c49f" stroke="#8d5b3e" stroke-width="2"/>
+        <path d="M47 48 c6-16 26-16 32 0 v20 H47z" fill="#e9b8b8" stroke="#8d5b3e" stroke-width="2"/>
+        <circle cx="77" cy="52" r="9" fill="#f2c7a8" stroke="#8d5b3e" stroke-width="2"/>
+        <path d="M64 53 c9 6 18 6 25 0" stroke="#8d5b3e" stroke-width="2" fill="none"/>
+        <path d="M51 27 c7-11 20-11 28 0" stroke="#6f4c3d" stroke-width="3" fill="none"/>
+      </svg>
+    `,
+
+    "chronic-care": `
+      <svg viewBox="0 0 120 90">
+        <path d="M35 25 v20 c0 13 12 23 25 23s25-10 25-23V25" fill="none" stroke="#3d7892" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="34" cy="24" r="5" fill="#8bc6dd"/>
+        <circle cx="86" cy="24" r="5" fill="#8bc6dd"/>
+        <path d="M60 68 c0 9 10 12 18 7" fill="none" stroke="#3d7892" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="84" cy="72" r="8" fill="#f8fbff" stroke="#3d7892" stroke-width="3"/>
+      </svg>
+    `,
+
+    "nutrition-care": `
+      <svg viewBox="0 0 120 90">
+        <rect x="42" y="28" width="36" height="40" rx="4" fill="#f6f0df" stroke="#7c6b52" stroke-width="3"/>
+        <path d="M50 28 c0-10 20-10 20 0" stroke="#7c6b52" stroke-width="3" fill="none"/>
+        <circle cx="46" cy="70" r="8" fill="#dc7b55" stroke="#8d5b3e" stroke-width="2"/>
+        <circle cx="65" cy="72" r="9" fill="#e6a34c" stroke="#8d5b3e" stroke-width="2"/>
+        <path d="M76 67 c9-12 18-13 25-4 c-10 8-18 11-25 4z" fill="#8fbf75" stroke="#5f8a50" stroke-width="2"/>
+      </svg>
+    `,
+
+    "neuro-care": `
+      <svg viewBox="0 0 120 90">
+        <path d="M45 30 c-9 0-16 7-16 16 c0 9 6 15 14 15 c4 10 18 11 25 3 c10 1 18-5 18-15 c0-8-5-14-12-16 c-4-10-18-13-29-3z" fill="#f4b6bd" stroke="#8d5b6a" stroke-width="3"/>
+        <path d="M45 39 c8 2 13 7 15 16 M62 37 c-4 9-4 17 2 25 M73 43 c-8 1-14 5-18 12" stroke="#8d5b6a" stroke-width="2" fill="none"/>
+      </svg>
+    `,
+
+    "elderly-care": `
+      <svg viewBox="0 0 120 90">
+        <circle cx="48" cy="33" r="13" fill="#f0c49f" stroke="#7c5d43" stroke-width="2"/>
+        <circle cx="74" cy="33" r="13" fill="#f0c49f" stroke="#7c5d43" stroke-width="2"/>
+        <path d="M35 70 c4-18 22-22 31-7 c8-15 27-11 31 7z" fill="#b6c89f" stroke="#7c5d43" stroke-width="2"/>
+        <path d="M40 26 c6-9 17-8 23 0 M66 26 c8-8 18-7 24 1" stroke="#9e9e9e" stroke-width="4" fill="none"/>
+        <path d="M43 38 q5 4 10 0 M70 38 q5 4 10 0" stroke="#7c5d43" stroke-width="2" fill="none"/>
+      </svg>
+    `,
+
+    "medication-care": `
+      <svg viewBox="0 0 120 90">
+        <rect x="32" y="36" width="58" height="24" rx="12" fill="#f3f0e9" stroke="#7c5d43" stroke-width="3" transform="rotate(-38 61 48)"/>
+        <path d="M61 25 L78 42" stroke="#d84f5b" stroke-width="16" stroke-linecap="round"/>
+        <path d="M43 67 c18 7 42 6 58-2" stroke="#d9b38c" stroke-width="2" fill="none"/>
+      </svg>
+    `
+  };
+
+  function applyIcons() {
+    document.querySelectorAll("#edu-menu-page .edu-card").forEach(card => {
+      const iconBox = card.querySelector(".edu-card-icon");
+      if (!iconBox) return;
+
+      Object.keys(icons).forEach(key => {
+        if (card.classList.contains(key)) {
+          iconBox.innerHTML = icons[key];
+          iconBox.classList.add("handdrawn-icon");
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", applyIcons);
+  window.addEventListener("load", applyIcons);
+
+  const oldShowPage = window.showPage;
+  window.showPage = function patchedShowPageForEduIcons(pageId) {
+    if (typeof oldShowPage === "function") {
+      oldShowPage.apply(this, arguments);
+    }
+
+    if (pageId === "edu-menu-page") {
+      setTimeout(applyIcons, 50);
+      setTimeout(applyIcons, 200);
+    }
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
+})();
+
+/* =========================================================
+   FINAL：衛教知識庫套用真手繪圖片 icon + 5格頁面鎖定
+   ========================================================= */
+(function eduMenuHanddrawnImageFinal() {
+  if (window.__EDU_MENU_HANDDRAWN_IMAGE_FINAL__) return;
+  window.__EDU_MENU_HANDDRAWN_IMAGE_FINAL__ = true;
+
+  const iconMap = {
+    "first-aid": "images/edu-icons/first-aid.webp",
+    "trauma-care": "images/edu-icons/trauma-care.webp",
+    "home-care": "images/edu-icons/home-care.webp",
+    "tube-care": "images/edu-icons/tube-care.webp",
+    "postpartum-care": "images/edu-icons/postpartum-care.webp",
+    "chronic-care": "images/edu-icons/chronic-care.webp",
+    "nutrition-care": "images/edu-icons/nutrition-care.webp",
+    "neuro-care": "images/edu-icons/neuro-care.webp",
+    "elderly-care": "images/edu-icons/elderly-care.webp",
+    "medication-care": "images/edu-icons/medication-care.webp"
+  };
+
+  function isEduMenuVisible() {
+    const page = document.getElementById("edu-menu-page");
+    if (!page) return false;
+    const style = window.getComputedStyle(page);
+    return !page.classList.contains("hidden") && style.display !== "none" && style.visibility !== "hidden";
+  }
+
+  function applyEduIcons() {
+    document.querySelectorAll("#edu-menu-page .edu-card").forEach(function(card) {
+      const iconBox = card.querySelector(".edu-card-icon");
+      if (!iconBox) return;
+
+      Object.keys(iconMap).forEach(function(key) {
+        if (card.classList.contains(key)) {
+          iconBox.innerHTML = '<img class="edu-handdrawn-img" src="' + iconMap[key] + '" alt="">';
+          iconBox.classList.add("image-icon-mode");
+        }
+      });
+    });
+
+    const title = document.querySelector("#edu-menu-page .quiz-menu-card h2");
+    if (title && !title.querySelector(".edu-title-book-icon")) {
+      title.innerHTML = '<img class="edu-title-book-icon" src="images/health-book.png" alt="">衛教知識庫';
+    }
+  }
+
+  function syncEduMenuPageState() {
+    const onEduMenu = isEduMenuVisible();
+    document.body.classList.toggle("edu-menu-fit-page", onEduMenu);
+    if (onEduMenu) applyEduIcons();
+  }
+
+  const oldShowPage = window.showPage;
+  window.showPage = function patchedShowPageEduFinal(pageId) {
+    if (typeof oldShowPage === "function") oldShowPage.apply(this, arguments);
+    setTimeout(syncEduMenuPageState, 0);
+    setTimeout(syncEduMenuPageState, 80);
+    setTimeout(syncEduMenuPageState, 200);
+  };
+  try { showPage = window.showPage; } catch(e) {}
+
+  document.addEventListener("DOMContentLoaded", function() {
+    applyEduIcons();
+    syncEduMenuPageState();
+  });
+  window.addEventListener("load", function() {
+    applyEduIcons();
+    syncEduMenuPageState();
+  });
+  window.addEventListener("resize", syncEduMenuPageState);
+})();
+
+
+/* =========================================================
+   修正衛教知識庫標題 icon：不要用圖片，改用乾淨手繪 SVG
+   貼在 script.js 最底部
+   ========================================================= */
+(function fixEduTitleIcon() {
+  if (window.__FIX_EDU_TITLE_ICON__) return;
+  window.__FIX_EDU_TITLE_ICON__ = true;
+
+  function applyTitleIcon() {
+    const title = document.querySelector("#edu-menu-page .quiz-menu-card h2");
+    if (!title) return;
+
+    title.innerHTML = `
+      <span class="edu-title-svg-icon" aria-hidden="true">
+        <svg viewBox="0 0 90 70">
+          <rect x="12" y="18" width="18" height="40" rx="3" fill="#8dbb73" stroke="#5d744c" stroke-width="2"/>
+          <rect x="31" y="12" width="18" height="46" rx="3" fill="#e6b86a" stroke="#9a7441" stroke-width="2"/>
+          <rect x="50" y="20" width="18" height="38" rx="3" fill="#78a8c8" stroke="#4d7288" stroke-width="2"/>
+          <path d="M15 26 H27 M34 21 H46 M53 28 H65" stroke="#fffaf3" stroke-width="2" stroke-linecap="round"/>
+          <path d="M10 60 C26 65 53 65 72 60" fill="none" stroke="#d7c4aa" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>衛教知識庫</span>
+    `;
+  }
+
+  document.addEventListener("DOMContentLoaded", applyTitleIcon);
+  window.addEventListener("load", applyTitleIcon);
+
+  const oldShowPage = window.showPage;
+
+  window.showPage = function patchedShowPageEduTitleIcon(pageId) {
+    if (typeof oldShowPage === "function") {
+      oldShowPage.apply(this, arguments);
+    }
+
+    if (pageId === "edu-menu-page") {
+      setTimeout(applyTitleIcon, 50);
+      setTimeout(applyTitleIcon, 200);
+    }
+  };
+
+  try {
+    showPage = window.showPage;
+  } catch (e) {}
 })();

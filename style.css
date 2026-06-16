@@ -157260,3 +157260,2034 @@ html body #stable-red-alert .stable-emergency-note p {
     width: auto !important;
   }
 }
+
+/* =========================================================
+   按鈕點擊回饋：按下去會變深、反黑、微縮
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 首頁所有主要按鈕 */
+html body #home-page button,
+html body #home-page .phoebe-btn,
+html body #home-page .phoebe-chat,
+html body #home-page .phoebe-score {
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease !important;
+}
+
+/* 滑鼠移上去：稍微變深 */
+html body #home-page button:hover,
+html body #home-page .phoebe-btn:hover,
+html body #home-page .phoebe-chat:hover,
+html body #home-page .phoebe-score:hover {
+  background: #b9a48b !important;
+  color: #fffaf4 !important;
+  border-color: #8f7864 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 14px rgba(94, 72, 52, 0.16) !important;
+}
+
+/* 按下去瞬間：反黑、微縮 */
+html body #home-page button:active,
+html body #home-page .phoebe-btn:active,
+html body #home-page .phoebe-chat:active,
+html body #home-page .phoebe-score:active {
+  background: #4f4337 !important;
+  color: #fffaf4 !important;
+  border-color: #4f4337 !important;
+
+  transform: translateY(1px) scale(0.98) !important;
+
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.22),
+    0 2px 6px rgba(80, 60, 42, 0.12) !important;
+
+  filter: brightness(0.96) !important;
+}
+
+/* 鍵盤 Tab 選到按鈕時，也有提示 */
+html body #home-page button:focus-visible,
+html body #home-page .phoebe-btn:focus-visible,
+html body #home-page .phoebe-chat:focus-visible,
+html body #home-page .phoebe-score:focus-visible {
+  outline: 3px solid rgba(120, 92, 66, 0.32) !important;
+  outline-offset: 3px !important;
+}
+
+/* JS 點擊停留效果 */
+html body #home-page button.is-pressed,
+html body #home-page .phoebe-btn.is-pressed,
+html body #home-page .phoebe-chat.is-pressed,
+html body #home-page .phoebe-score.is-pressed {
+  background: #4f4337 !important;
+  color: #fffaf4 !important;
+  border-color: #4f4337 !important;
+  transform: scale(0.98) !important;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* =========================================================
+   lock：首頁版面鎖住，避免從其他頁回來時跳位
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 回到首頁時，不讓頁面記住舊捲動位置 */
+html,
+body {
+  scroll-behavior: auto !important;
+}
+
+/* 桌機版首頁鎖定高度與位置 */
+@media (min-width: 1000px) {
+  body.home-layout-locked {
+    overflow: hidden !important;
+  }
+
+  body.home-layout-locked #home-page {
+    position: relative !important;
+
+    min-height: calc(100vh - 120px) !important;
+    height: calc(100vh - 120px) !important;
+
+    overflow: hidden !important;
+
+    padding-top: 0 !important;
+    padding-bottom: 24px !important;
+  }
+
+  body.home-layout-locked #home-page .phoebe-home-grid,
+  body.home-layout-locked #home-page .card-container,
+  body.home-layout-locked #home-page .home-dashboard {
+    position: relative !important;
+    top: 0 !important;
+
+    transform: none !important;
+
+    margin-top: 18px !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.home-layout-locked header {
+    position: relative !important;
+    top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* 手機版不要硬鎖，避免內容被裁切 */
+@media (max-width: 999px) {
+  body.home-layout-locked {
+    overflow-y: auto !important;
+  }
+
+  body.home-layout-locked #home-page {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+/* =========================================================
+   FINAL：首頁固定成第三張正確版
+   不硬鎖高度，只固定回首頁後的正常版面
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 取消前面錯誤的硬鎖 */
+html body.home-layout-locked,
+html body.home-layout-locked #home-page {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+html body.home-layout-locked #home-page {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* 首頁狀態：header 一定顯示 */
+html body.is-home-page header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  position: relative !important;
+  top: auto !important;
+
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+
+  padding-top: 24px !important;
+  padding-bottom: 12px !important;
+  margin: 0 !important;
+
+  transform: none !important;
+  overflow: visible !important;
+}
+
+/* 首頁本體恢復正常流動，不要被鎖死 */
+html body.is-home-page #home-page {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+
+  padding-top: 0 !important;
+  padding-bottom: 42px !important;
+
+  margin: 0 !important;
+  overflow: visible !important;
+
+  transform: none !important;
+}
+
+/* 首頁四格：固定成第三張的間距 */
+html body.is-home-page #home-page .phoebe-home-grid,
+html body.is-home-page #home-page .card-container,
+html body.is-home-page #home-page .home-dashboard {
+  width: min(1780px, 94vw) !important;
+  max-width: none !important;
+
+  margin: 18px auto 0 !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 28px 34px !important;
+
+  align-items: stretch !important;
+  justify-content: center !important;
+
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+/* 卡片不要被拉高或壓扁 */
+html body.is-home-page #home-page .phoebe-card {
+  height: auto !important;
+  max-height: none !important;
+
+  overflow: hidden !important;
+  transform: none !important;
+}
+
+/* 上排卡片 */
+html body.is-home-page #home-page .phoebe-sos-card,
+html body.is-home-page #home-page .phoebe-record-card {
+  min-height: 300px !important;
+}
+
+/* 下排卡片 */
+html body.is-home-page #home-page .phoebe-ai-card,
+html body.is-home-page #home-page .phoebe-edu-card {
+  min-height: 220px !important;
+}
+
+/* 底部文字維持第三張位置 */
+html body.is-home-page #home-page .phoebe-handdrawn-footer {
+  margin-top: 24px !important;
+  margin-bottom: 0 !important;
+  position: relative !important;
+  transform: none !important;
+}
+
+/* 其他頁面可以隱藏 header */
+html body.sub-page-mode header {
+  display: none !important;
+}
+
+/* 手機版不要硬套兩欄 */
+@media (max-width: 999px) {
+  html body.is-home-page #home-page .phoebe-home-grid,
+  html body.is-home-page #home-page .card-container,
+  html body.is-home-page #home-page .home-dashboard {
+    grid-template-columns: 1fr !important;
+    width: min(94vw, 760px) !important;
+  }
+
+  html body.sub-page-mode header {
+    display: none !important;
+  }
+}
+/* =========================================================
+   把首頁底部文字移到右上角
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 首頁作為定位基準 */
+html body #home-page,
+html body.home-redesign #home-page,
+html body.notranslate.home-redesign #home-page {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* 把底部那排文字搬到右上角 */
+html body #home-page .phoebe-handdrawn-footer,
+html body #home-page .home-footer,
+html body #home-page .phoebe-home-footer,
+html body.home-redesign #home-page .phoebe-handdrawn-footer,
+html body.home-redesign #home-page .home-footer,
+html body.home-redesign #home-page .phoebe-home-footer,
+html body.notranslate.home-redesign #home-page .phoebe-handdrawn-footer,
+html body.notranslate.home-redesign #home-page .home-footer,
+html body.notranslate.home-redesign #home-page .phoebe-home-footer {
+  position: absolute !important;
+
+  top: -108px !important;
+  right: 58px !important;
+  left: auto !important;
+  bottom: auto !important;
+
+  width: auto !important;
+  max-width: none !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 26px !important;
+
+  transform: none !important;
+  z-index: 30 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 每個項目樣式 */
+html body #home-page .phoebe-handdrawn-footer span,
+html body #home-page .home-footer span,
+html body #home-page .phoebe-home-footer span,
+html body.home-redesign #home-page .phoebe-handdrawn-footer span,
+html body.home-redesign #home-page .home-footer span,
+html body.home-redesign #home-page .phoebe-home-footer span,
+html body.notranslate.home-redesign #home-page .phoebe-handdrawn-footer span,
+html body.notranslate.home-redesign #home-page .home-footer span,
+html body.notranslate.home-redesign #home-page .phoebe-home-footer span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  font-size: 15px !important;
+  color: #9a866f !important;
+  white-space: nowrap !important;
+}
+
+/* 圖示大小 */
+html body #home-page .phoebe-handdrawn-footer svg,
+html body #home-page .home-footer svg,
+html body #home-page .phoebe-home-footer svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 auto !important;
+}
+
+/* 避免原本底部留太多空間 */
+html body #home-page {
+  padding-bottom: 30px !important;
+}
+
+/* 手機版不要擠右上角，恢復到底部 */
+@media (max-width: 1100px) {
+  html body #home-page .phoebe-handdrawn-footer,
+  html body #home-page .home-footer,
+  html body #home-page .phoebe-home-footer {
+    position: static !important;
+    width: min(95vw, 900px) !important;
+    margin: 18px auto 0 !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 18px !important;
+  }
+}
+
+/* =========================================================
+   fix：底部空白太多，收掉首頁下方預留空間
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 首頁不要保留過多底部高度 */
+html body.is-home-page #home-page,
+html body #home-page {
+  padding-bottom: 8px !important;
+  margin-bottom: 0 !important;
+
+  min-height: auto !important;
+  height: auto !important;
+  max-height: none !important;
+
+  overflow: visible !important;
+}
+
+/* 四格區塊底部不要多留空 */
+html body.is-home-page #home-page .phoebe-home-grid,
+html body.is-home-page #home-page .card-container,
+html body.is-home-page #home-page .home-dashboard,
+html body #home-page .phoebe-home-grid,
+html body #home-page .card-container,
+html body #home-page .home-dashboard {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* 取消舊 footer 在底部保留的空間 */
+html body #home-page .phoebe-handdrawn-footer,
+html body #home-page .home-footer,
+html body #home-page .phoebe-home-footer {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* 如果之前有用 ::after 做底部文字或裝飾，全部關掉 */
+html body #home-page::after,
+html body #home-page .phoebe-home-grid::after,
+html body #home-page .card-container::after,
+html body #home-page .home-dashboard::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 底部小裝飾不要撐高度 */
+html body #home-page .ph-bottom-leaf-left,
+html body #home-page .ph-bottom-leaf-right,
+html body #home-page .ph-bottom-dash-left,
+html body #home-page .ph-bottom-dash-right {
+  display: none !important;
+}
+/* 讓下排卡片稍微高一點，填掉底部空白 */
+html body.is-home-page #home-page .phoebe-ai-card,
+html body.is-home-page #home-page .phoebe-edu-card,
+html body #home-page .phoebe-ai-card,
+html body #home-page .phoebe-edu-card {
+  min-height: 245px !important;
+}
+/* =========================================================
+   FINAL：首頁固定為第二張正常狀態
+   解決 header 消失、版面往上跑、底部空白過多
+   ========================================================= */
+
+/* 只要是首頁狀態，header 一定顯示 */
+html body.home-force-normal header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  position: relative !important;
+  top: auto !important;
+
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding-top: 24px !important;
+  padding-bottom: 12px !important;
+
+  overflow: visible !important;
+  transform: none !important;
+}
+
+/* 首頁不要被鎖高度 */
+html body.home-force-normal #home-page {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 10px !important;
+
+  overflow: visible !important;
+  transform: none !important;
+}
+
+/* 取消之前錯誤的鎖定 */
+html body.home-force-normal,
+html body.home-force-normal.home-layout-locked,
+html body.home-force-normal.sub-page-mode {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 首頁四格維持正常排列 */
+html body.home-force-normal #home-page .phoebe-home-grid,
+html body.home-force-normal #home-page .card-container,
+html body.home-force-normal #home-page .home-dashboard {
+  width: min(1780px, 94vw) !important;
+  max-width: none !important;
+
+  margin: 18px auto 0 !important;
+  padding-bottom: 0 !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 28px 34px !important;
+
+  align-items: stretch !important;
+  justify-content: center !important;
+
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+/* 底部不要多留空白 */
+html body.home-force-normal #home-page .phoebe-handdrawn-footer,
+html body.home-force-normal #home-page .home-footer,
+html body.home-force-normal #home-page .phoebe-home-footer {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* 關掉舊的底部偽元素空白 */
+html body.home-force-normal #home-page::after,
+html body.home-force-normal #home-page .phoebe-home-grid::after,
+html body.home-force-normal #home-page .card-container::after,
+html body.home-force-normal #home-page .home-dashboard::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 其他頁面仍然可以隱藏 header */
+html body.sub-page-mode:not(.home-force-normal) header {
+  display: none !important;
+}
+
+/* 手機版改單欄 */
+@media (max-width: 999px) {
+  html body.home-force-normal #home-page .phoebe-home-grid,
+  html body.home-force-normal #home-page .card-container,
+  html body.home-force-normal #home-page .home-dashboard {
+    grid-template-columns: 1fr !important;
+    width: min(94vw, 760px) !important;
+  }
+}
+/* =========================================================
+   final：只有首頁禁止滑動，其他頁面保持可滑動
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 首頁狀態：禁止整頁滑動 */
+html.home-scroll-locked,
+html.home-scroll-locked body,
+body.home-no-scroll {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* 首頁本體不要產生內部捲軸 */
+html.home-scroll-locked #home-page,
+body.home-no-scroll #home-page {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* 非首頁狀態：恢復正常滑動 */
+html:not(.home-scroll-locked),
+html:not(.home-scroll-locked) body,
+body:not(.home-no-scroll) {
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 其他頁面一定可以滑動 */
+body:not(.home-no-scroll) .page:not(#home-page) {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+
+/* 手機版不要鎖首頁，避免內容被裁切 */
+@media (max-width: 999px) {
+  html.home-scroll-locked,
+  html.home-scroll-locked body,
+  body.home-no-scroll {
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* =========================================================
+   FINAL：身體紀錄標題旁新增必填註記
+   ========================================================= */
+
+/* 關掉原本 form-card::before 產生的舊標題，只影響身體紀錄頁 */
+#record-page .form-card::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* 標題列 */
+#record-page .record-title-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  margin: 0 0 24px !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+#record-page .record-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+  color: #4f4337 !important;
+  letter-spacing: 1px !important;
+}
+
+#record-page .record-required-note {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid #d8c1a7 !important;
+  background: #f6eee3 !important;
+  color: #9a6b4a !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 700px) {
+  #record-page .record-title-row {
+    gap: 8px !important;
+    margin-bottom: 18px !important;
+  }
+
+  #record-page .record-title {
+    font-size: 22px !important;
+  }
+
+  #record-page .record-required-note {
+    font-size: 13px !important;
+    white-space: normal !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL：衛教闖關左右分欄新版版面
+   ========================================================= */
+#quiz-menu-page,
+#quiz-page {
+  background: #f7f3ec !important;
+  min-height: 100vh !important;
+  padding: 28px 0 !important;
+}
+
+.quiz-redesign-shell {
+  width: min(1500px, 94vw) !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  gap: 30px !important;
+}
+
+.quiz-menu-screen {
+  grid-template-columns: minmax(360px, 520px) !important;
+  justify-content: center !important;
+}
+
+.quiz-taking-screen {
+  grid-template-columns: 420px minmax(0, 1fr) !important;
+  align-items: stretch !important;
+}
+
+.quiz-redesign-left,
+.quiz-redesign-main {
+  background: #fffaf3 !important;
+  border: 1.5px solid #d8c3aa !important;
+  border-radius: 30px !important;
+  box-shadow: 0 12px 30px rgba(111, 78, 55, 0.10) !important;
+}
+
+.quiz-redesign-left { padding: 34px 30px !important; }
+
+.quiz-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-bottom: 26px !important;
+}
+
+.quiz-brand-icon {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 20px !important;
+  background: #f6eee3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 32px !important;
+}
+
+.quiz-brand h2 {
+  margin: 0 0 8px !important;
+  font-size: 32px !important;
+  color: #3f342c !important;
+}
+
+.quiz-brand p {
+  margin: 0 !important;
+  color: #7a6a5e !important;
+  line-height: 1.6 !important;
+}
+
+.quiz-topic-box {
+  display: grid !important;
+  grid-template-columns: 44px 1fr !important;
+  gap: 14px !important;
+  align-items: center !important;
+  padding: 18px !important;
+  border-radius: 20px !important;
+  background: #f8f0e5 !important;
+  border: 1.5px solid #dec8ad !important;
+  margin-bottom: 28px !important;
+}
+
+.quiz-topic-icon { font-size: 28px !important; }
+.quiz-topic-box small { display: block !important; color: #8a7765 !important; margin-bottom: 4px !important; }
+.quiz-topic-box strong { color: #4f4337 !important; font-size: 17px !important; }
+.quiz-topic-box p { margin: 6px 0 0 !important; color: #8a7765 !important; font-size: 14px !important; }
+
+.quiz-level-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+.quiz-level-card {
+  width: 100% !important;
+  min-height: 92px !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  padding: 18px 22px !important;
+  display: grid !important;
+  grid-template-columns: 48px 1fr 28px !important;
+  align-items: center !important;
+  gap: 14px !important;
+  cursor: pointer !important;
+  color: #fffaf3 !important;
+  text-align: left !important;
+  box-shadow: 0 10px 20px rgba(87, 66, 48, 0.13) !important;
+  transition: 0.18s ease !important;
+}
+
+.quiz-level-card:hover { transform: translateY(-2px) !important; filter: brightness(1.04) !important; }
+.quiz-level-card:active { transform: scale(0.98) !important; filter: brightness(0.92) !important; }
+.quiz-level-easy { background: #b99f82 !important; }
+.quiz-level-medium { background: #a98d72 !important; }
+.quiz-level-hard { background: #887463 !important; }
+.quiz-level-card.active { outline: 4px solid rgba(120, 92, 66, 0.22) !important; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35) !important; }
+.quiz-level-icon { font-size: 28px !important; }
+.quiz-level-text strong { display: block !important; font-size: 22px !important; margin-bottom: 4px !important; }
+.quiz-level-text small { display: block !important; font-size: 14px !important; opacity: 0.92 !important; }
+.quiz-level-arrow { font-size: 36px !important; opacity: 0.88 !important; }
+
+.quiz-tip-box {
+  margin-top: 28px !important;
+  padding: 18px !important;
+  border-radius: 20px !important;
+  display: grid !important;
+  grid-template-columns: 34px 1fr !important;
+  gap: 12px !important;
+  align-items: center !important;
+  background: #fff7ea !important;
+  border: 1.5px solid #e0c6a7 !important;
+  color: #6f5c50 !important;
+}
+
+.quiz-tip-box span { font-size: 24px !important; }
+.quiz-tip-box p { margin: 0 !important; line-height: 1.7 !important; }
+
+.quiz-back-btn {
+  display: block !important;
+  margin: 26px auto 0 !important;
+  padding: 12px 26px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #8f7664 !important;
+  color: #fffaf3 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+.quiz-redesign-main { padding: 30px 34px !important; }
+.quiz-main-top { display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 18px !important; margin-bottom: 18px !important; }
+.quiz-progress { font-size: 20px !important; font-weight: 800 !important; color: #3f342c !important; }
+.quiz-end-btn { border: 1.5px solid #d8c3aa !important; background: #fffaf3 !important; color: #7a6654 !important; padding: 10px 20px !important; border-radius: 999px !important; font-weight: 700 !important; }
+
+.quiz-progress-track { position: relative !important; height: 34px !important; background: #eee5d8 !important; border-radius: 999px !important; margin-bottom: 24px !important; overflow: hidden !important; }
+.quiz-progress-fill { height: 100% !important; width: 0% !important; background: #b99f82 !important; border-radius: inherit !important; transition: width 0.25s ease !important; }
+#quiz-progress-percent { position: absolute !important; right: 14px !important; top: 50% !important; transform: translateY(-50%) !important; font-weight: 800 !important; color: #4f4337 !important; }
+
+.quiz-question-panel { padding: 24px !important; border-radius: 26px !important; background: #fffdf9 !important; border: 1.5px solid #dec8ad !important; }
+.quiz-question-meta { color: #c46f2c !important; font-size: 18px !important; font-weight: 800 !important; margin-bottom: 12px !important; }
+.quiz-question-box { margin-bottom: 22px !important; color: #3f342c !important; font-size: 23px !important; font-weight: 900 !important; line-height: 1.65 !important; }
+
+.quiz-options-grid,
+#quiz-options { display: grid !important; grid-template-columns: 1fr !important; gap: 14px !important; background: transparent !important; border: 0 !important; padding: 0 !important; }
+
+.quiz-option { width: 100% !important; min-height: 58px !important; border-radius: 18px !important; border: 1.5px solid #d8c3aa !important; background: #fffaf3 !important; color: #4f4337 !important; font-size: 17px !important; font-weight: 700 !important; text-align: left !important; padding: 14px 20px !important; box-shadow: none !important; }
+.quiz-option:hover { background: #eadfcf !important; }
+.quiz-option.selected-correct,
+.quiz-option.correct-answer { background: #dfead2 !important; border-color: #91aa75 !important; color: #455739 !important; }
+.quiz-option.selected-wrong { background: #f6d9d9 !important; border-color: #d99a9a !important; color: #8a3f3f !important; }
+
+.answer-explanation { margin-top: 20px !important; padding: 20px 24px !important; border-radius: 22px !important; background: #fff7ea !important; border: 1.5px dashed #e0c6a7 !important; color: #5d4635 !important; line-height: 1.8 !important; }
+.answer-explanation.hidden { display: none !important; }
+.right-text { color: #5d7f4b !important; font-size: 21px !important; font-weight: 900 !important; margin-bottom: 10px !important; }
+.wrong-text { color: #b94c4c !important; font-size: 21px !important; font-weight: 900 !important; margin-bottom: 10px !important; }
+
+.quiz-nav-row { display: flex !important; justify-content: center !important; gap: 20px !important; margin-top: 26px !important; }
+.quiz-nav-btn { min-width: 160px !important; padding: 14px 24px !important; border: 0 !important; border-radius: 999px !important; background: #eadfcf !important; color: #7a6654 !important; font-size: 16px !important; font-weight: 800 !important; }
+.quiz-nav-primary { background: #c7b097 !important; color: #fffaf3 !important; }
+.quiz-nav-btn:disabled { opacity: 0.45 !important; cursor: not-allowed !important; }
+
+@media (max-width: 1000px) {
+  .quiz-taking-screen { grid-template-columns: 1fr !important; }
+  .quiz-redesign-left { order: 1 !important; }
+  .quiz-redesign-main { order: 2 !important; }
+}
+
+
+/* =========================================================
+   FINAL：危險健康數值彈窗 - 淡紅精緻版 + 小插圖
+   目標：接近參考圖，保留警示感但更柔和、乾淨、可讀
+   ========================================================= */
+
+#stable-red-alert {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  background: rgba(40, 34, 30, 0.30) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+#stable-red-alert.is-open {
+  display: flex !important;
+  pointer-events: auto !important;
+}
+
+#stable-red-alert.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#stable-red-alert .stable-red-box {
+  position: relative !important;
+  width: min(1080px, 88vw) !important;
+  max-width: 1080px !important;
+  max-height: 86vh !important;
+  padding: 34px 44px 30px !important;
+  border-radius: 28px !important;
+  border: 2px solid rgba(236, 94, 105, 0.75) !important;
+  background: linear-gradient(180deg, #fff7f7 0%, #fff4f4 100%) !important;
+  box-shadow: 0 24px 60px rgba(80, 52, 45, 0.24) !important;
+  color: #64363d !important;
+  overflow: hidden !important;
+}
+
+/* 標題列 */
+#stable-red-alert .stable-red-title {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  margin: 0 0 22px !important;
+  padding: 0 180px 0 0 !important;
+  color: #c83746 !important;
+  font-size: 30px !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
+#stable-red-alert .stable-red-title::before {
+  content: "⚠" !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 14px !important;
+  color: #c83746 !important;
+  font-size: 34px !important;
+  font-weight: 900 !important;
+}
+
+/* 標題右側心跳小插圖 */
+#stable-red-alert .stable-red-title::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 42px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 160px !important;
+  height: 34px !important;
+  opacity: 0.62 !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 70'%3E%3Cpath d='M8 38 H70 C82 38 85 28 93 28 C101 28 104 38 114 38 H135 L150 10 L164 58 L178 30 L193 38 H220' fill='none' stroke='%23e79aa0' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M237 44 C218 31 213 22 213 15 C213 7 219 3 226 3 C232 3 235 7 237 12 C239 7 244 3 250 3 C257 3 262 8 262 15 C262 24 256 32 237 44Z' fill='none' stroke='%23e79aa0' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+/* 內容捲動區 */
+#stable-red-alert .stable-red-body {
+  max-height: 58vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-right: 14px !important;
+  scroll-behavior: auto !important;
+}
+
+#stable-red-alert .stable-red-body::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+#stable-red-alert .stable-red-body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+#stable-red-alert .stable-red-body::-webkit-scrollbar-thumb {
+  background: rgba(112, 120, 120, 0.72) !important;
+  border-radius: 999px !important;
+}
+
+/* 注意提示條 */
+#stable-red-alert .stable-red-lead {
+  width: 100% !important;
+  margin: 0 auto 20px !important;
+  padding: 14px 18px !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(232, 139, 146, 0.28) !important;
+  background: rgba(255, 255, 255, 0.74) !important;
+  color: #ba3340 !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  box-sizing: border-box !important;
+}
+
+/* 內容卡片 */
+#stable-red-alert .stable-red-body section {
+  position: relative !important;
+  margin: 0 0 18px !important;
+  padding: 20px 28px 20px 80px !important;
+  border-radius: 20px !important;
+  border: 1.5px solid rgba(230, 112, 122, 0.32) !important;
+  background: rgba(255, 251, 251, 0.78) !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+/* 區塊左側小插圖 */
+#stable-red-alert .stable-red-body section::before {
+  position: absolute !important;
+  left: 28px !important;
+  top: 24px !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 28px !important;
+  opacity: 0.86 !important;
+}
+
+#stable-red-alert .stable-red-body section:nth-of-type(1)::before {
+  content: "💗" !important;
+}
+
+#stable-red-alert .stable-red-body section:nth-of-type(2)::before {
+  content: "💡" !important;
+}
+
+#stable-red-alert .stable-red-body section:nth-of-type(3)::before {
+  content: "☎" !important;
+  color: #e47c6e !important;
+  font-weight: 900 !important;
+}
+
+/* 區塊右下角淡淡裝飾 */
+#stable-red-alert .stable-red-body section:nth-of-type(1)::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 14px !important;
+  width: 46px !important;
+  height: 36px !important;
+  opacity: 0.38 !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 70'%3E%3Cpath d='M15 48 C34 23 62 18 80 15 C73 42 45 58 15 48Z' fill='none' stroke='%2398a582' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18 47 C38 38 55 25 80 15' fill='none' stroke='%2398a582' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+#stable-red-alert .stable-red-body section:nth-of-type(2)::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 14px !important;
+  width: 70px !important;
+  height: 58px !important;
+  opacity: 0.55 !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 90'%3E%3Cpath d='M24 14 H78 L96 32 V76 H24Z' fill='%23fff4df' stroke='%23c7a482' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M78 14 V32 H96' fill='none' stroke='%23c7a482' stroke-width='4'/%3E%3Cpath d='M38 38 H72 M38 52 H82 M38 66 H66' stroke='%23d2b28f' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M82 66 L104 44' stroke='%23db7866' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M99 39 L109 49' stroke='%23f2b282' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M100 49 L104 44' stroke='%238b6a52' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+#stable-red-alert .stable-red-body section:nth-of-type(3)::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 10px !important;
+  width: 68px !important;
+  height: 48px !important;
+  opacity: 0.55 !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 70'%3E%3Cpath d='M16 46 C7 36 6 22 18 14 C30 6 44 13 50 24 C57 12 75 7 88 18 C101 30 92 51 50 63 C36 58 24 53 16 46Z' fill='none' stroke='%23eaa0a0' stroke-width='4'/%3E%3Cpath d='M72 16 H96 C104 16 108 22 108 30 V39 C108 47 102 53 94 53 H78 L64 63 L68 53 H72 C64 53 58 47 58 39 V30 C58 22 64 16 72 16Z' fill='%23fff4ee' stroke='%23c7a482' stroke-width='4'/%3E%3Cpath d='M83 25 V44 M73 35 H93' stroke='%23d8a16e' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
+#stable-red-alert .stable-red-body h4 {
+  margin: 0 0 14px !important;
+  color: #c63746 !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px !important;
+}
+
+#stable-red-alert ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 異常項目列表 */
+#stable-red-alert .stable-risk-list li {
+  display: grid !important;
+  grid-template-columns: 240px minmax(0, 1fr) !important;
+  gap: 24px !important;
+  align-items: start !important;
+  padding: 13px 0 !important;
+  border-bottom: 1px dashed rgba(209, 97, 108, 0.26) !important;
+}
+
+#stable-red-alert .stable-risk-list li:last-child {
+  border-bottom: none !important;
+}
+
+#stable-red-alert .stable-risk-list strong {
+  color: #bd3341 !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  line-height: 1.55 !important;
+}
+
+#stable-red-alert .stable-risk-list strong::before {
+  content: "▲ " !important;
+  color: #c63746 !important;
+  font-size: 13px !important;
+}
+
+#stable-red-alert .stable-risk-list span {
+  color: #6f3f45 !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  line-height: 1.78 !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 建議處置 */
+#stable-red-alert .stable-action-list li {
+  position: relative !important;
+  margin: 0 0 8px !important;
+  padding-left: 18px !important;
+  color: #6f3f45 !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  line-height: 1.85 !important;
+}
+
+#stable-red-alert .stable-action-list li::before {
+  content: "•" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #c63746 !important;
+  font-weight: 900 !important;
+}
+
+/* 立即求助 */
+#stable-red-alert .stable-emergency-note p {
+  margin: 0 !important;
+  color: #6f3f45 !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  line-height: 1.85 !important;
+}
+
+#stable-red-alert .stable-emergency-note p b,
+#stable-red-alert .stable-emergency-note p strong {
+  color: #c63746 !important;
+}
+
+/* 按鈕 */
+#stable-red-alert .stable-red-buttons {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 18px !important;
+  margin: 20px 0 0 !important;
+  padding: 0 !important;
+}
+
+#stable-red-alert .stable-red-buttons button {
+  min-width: 170px !important;
+  height: 52px !important;
+  border: none !important;
+  border-radius: 16px !important;
+  background: #8f7664 !important;
+  color: #fffaf3 !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  letter-spacing: 2px !important;
+  box-shadow: 0 10px 20px rgba(83, 61, 45, 0.20) !important;
+  cursor: pointer !important;
+}
+
+#stable-red-alert .stable-red-call::before {
+  content: "☎ " !important;
+}
+
+#stable-red-alert .stable-red-buttons button:hover {
+  transform: translateY(-1px) !important;
+  background: #735d4f !important;
+}
+
+#stable-red-alert .stable-red-buttons button:active {
+  transform: scale(0.98) !important;
+  background: #58483d !important;
+}
+
+@media (max-width: 760px) {
+  #stable-red-alert {
+    padding: 14px !important;
+  }
+
+  #stable-red-alert .stable-red-box {
+    width: 94vw !important;
+    padding: 28px 20px 22px !important;
+  }
+
+  #stable-red-alert .stable-red-title {
+    padding-right: 0 !important;
+    font-size: 25px !important;
+  }
+
+  #stable-red-alert .stable-red-title::after {
+    display: none !important;
+  }
+
+  #stable-red-alert .stable-red-body section {
+    padding: 20px 18px 20px 62px !important;
+  }
+
+  #stable-red-alert .stable-risk-list li {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
+
+  #stable-red-alert .stable-red-buttons {
+    flex-direction: column !important;
+  }
+
+  #stable-red-alert .stable-red-buttons button {
+    width: 100% !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL：移除危險健康數值彈窗小圖案
+   保留淡紅精緻版樣式，但拿掉裝飾插圖與小圖示
+   ========================================================= */
+
+/* 標題旁的警示圖、心跳線、愛心全部移除 */
+#stable-red-alert .stable-red-title {
+  padding-right: 0 !important;
+}
+
+#stable-red-alert .stable-red-title::before,
+#stable-red-alert .stable-red-title::after {
+  content: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 移除各區塊左側小插圖與右下角插圖 */
+#stable-red-alert .stable-red-body section::before,
+#stable-red-alert .stable-red-body section::after,
+#stable-red-alert .stable-red-body section:nth-of-type(1)::before,
+#stable-red-alert .stable-red-body section:nth-of-type(1)::after,
+#stable-red-alert .stable-red-body section:nth-of-type(2)::before,
+#stable-red-alert .stable-red-body section:nth-of-type(2)::after,
+#stable-red-alert .stable-red-body section:nth-of-type(3)::before,
+#stable-red-alert .stable-red-body section:nth-of-type(3)::after {
+  content: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 因為小圖移除，卡片左側不用再留空 */
+#stable-red-alert .stable-red-body section {
+  padding-left: 28px !important;
+}
+
+/* 移除異常項目前面的三角小符號 */
+#stable-red-alert .stable-risk-list strong::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* 移除撥打 119 按鈕前面的電話符號 */
+#stable-red-alert .stable-red-call::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* 讓標題置中更乾淨 */
+#stable-red-alert .stable-red-title {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+@media (max-width: 760px) {
+  #stable-red-alert .stable-red-body section {
+    padding-left: 18px !important;
+  }
+}
+
+/* =========================================================
+   衛教知識庫：5 格一排 + 手繪 icon 版
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 這頁不需要滑動 */
+body.edu-menu-fit-page {
+  overflow: hidden !important;
+}
+
+#edu-menu-page {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+
+  padding: 18px 28px !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 白色大外框 */
+#edu-menu-page .quiz-menu-card {
+  width: min(94vw, 1500px) !important;
+  height: calc(100vh - 36px) !important;
+  max-height: calc(100vh - 36px) !important;
+
+  margin: 0 auto !important;
+  padding: 28px 34px 26px !important;
+
+  border-radius: 32px !important;
+  background: #fffdf9 !important;
+  overflow: hidden !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+/* 標題 */
+#edu-menu-page .quiz-menu-card h2 {
+  margin: 0 0 8px !important;
+  font-size: 36px !important;
+  line-height: 1.25 !important;
+  color: #3f342c !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+#edu-menu-page .quiz-menu-card > p {
+  margin: 0 0 24px !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  color: #7a6a5e !important;
+}
+
+/* 5 格一排，共 2 排 */
+#edu-menu-page .edu-menu-buttons {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+
+  gap: 18px 22px !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+}
+
+/* 卡片變成直式 */
+#edu-menu-page .edu-menu-buttons .edu-card {
+  width: 100% !important;
+  height: 250px !important;
+  min-height: 250px !important;
+
+  padding: 20px 16px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  gap: 14px !important;
+  text-align: center !important;
+
+  border-radius: 24px !important;
+  box-shadow: 0 10px 22px rgba(89, 67, 47, 0.10) !important;
+}
+
+/* 手繪 icon 外框 */
+#edu-menu-page .edu-card-icon {
+  width: 104px !important;
+  height: 78px !important;
+
+  border-radius: 999px !important;
+  background: rgba(255, 253, 248, 0.7) !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 0 !important;
+  line-height: 0 !important;
+
+  overflow: visible !important;
+  flex-shrink: 0 !important;
+}
+
+#edu-menu-page .edu-card-icon svg {
+  width: 96px !important;
+  height: 72px !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+/* 卡片標題 */
+#edu-menu-page .edu-card-text h3 {
+  margin: 0 0 8px !important;
+
+  font-size: 23px !important;
+  line-height: 1.25 !important;
+  font-weight: 900 !important;
+
+  text-align: center !important;
+  color: #3f342c !important;
+}
+
+/* 小字 */
+#edu-menu-page .edu-card-text span {
+  display: block !important;
+
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  color: rgba(63, 52, 44, 0.75) !important;
+
+  text-align: center !important;
+}
+
+/* 回首頁按鈕 */
+#edu-menu-page .back-btn {
+  position: fixed !important;
+  left: 28px !important;
+  bottom: 24px !important;
+  z-index: 999 !important;
+
+  min-width: 150px !important;
+  padding: 12px 22px !important;
+
+  border-radius: 999px !important;
+  background: #7b6046 !important;
+  color: #fffaf3 !important;
+
+  font-size: 15px !important;
+  font-weight: 800 !important;
+}
+
+/* 螢幕比較矮時自動縮小 */
+@media (max-height: 850px) {
+  #edu-menu-page .quiz-menu-card {
+    padding: 22px 30px 20px !important;
+  }
+
+  #edu-menu-page .quiz-menu-card h2 {
+    font-size: 32px !important;
+  }
+
+  #edu-menu-page .quiz-menu-card > p {
+    margin-bottom: 18px !important;
+  }
+
+  #edu-menu-page .edu-menu-buttons {
+    gap: 14px 18px !important;
+  }
+
+  #edu-menu-page .edu-menu-buttons .edu-card {
+    height: 210px !important;
+    min-height: 210px !important;
+    padding: 16px 12px !important;
+  }
+
+  #edu-menu-page .edu-card-icon {
+    width: 90px !important;
+    height: 66px !important;
+  }
+
+  #edu-menu-page .edu-card-icon svg {
+    width: 84px !important;
+    height: 62px !important;
+  }
+
+  #edu-menu-page .edu-card-text h3 {
+    font-size: 19px !important;
+  }
+
+  #edu-menu-page .edu-card-text span {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* 平板以下改 2 欄 */
+@media (max-width: 1100px) {
+  #edu-menu-page {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  #edu-menu-page .quiz-menu-card {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  #edu-menu-page .edu-menu-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+  }
+
+  #edu-menu-page .edu-menu-buttons .edu-card {
+    height: auto !important;
+    min-height: 170px !important;
+  }
+}
+
+/* =========================================================
+   FINAL：衛教知識庫變成參考圖樣式 - 5格一排 + 真手繪圖片
+   ========================================================= */
+body.edu-menu-fit-page {
+  overflow: hidden !important;
+}
+
+body.edu-menu-fit-page header {
+  display: none !important;
+}
+
+#edu-menu-page {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  padding: 18px 28px !important;
+  box-sizing: border-box !important;
+  background: #f7f3ec !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#edu-menu-page .quiz-menu-card {
+  width: min(94vw, 1500px) !important;
+  height: calc(100vh - 36px) !important;
+  max-height: calc(100vh - 36px) !important;
+  margin: 0 auto !important;
+  padding: 28px 34px 26px !important;
+  box-sizing: border-box !important;
+  border-radius: 32px !important;
+  background: #fffdf9 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  box-shadow: 0 18px 42px rgba(80, 60, 40, 0.10) !important;
+}
+
+#edu-menu-page .quiz-menu-card h2 {
+  margin: 0 0 8px !important;
+  font-size: 36px !important;
+  line-height: 1.25 !important;
+  color: #3f342c !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  letter-spacing: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+}
+
+#edu-menu-page .edu-title-book-icon {
+  width: 58px !important;
+  height: 58px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+#edu-menu-page .quiz-menu-card > p {
+  margin: 0 0 24px !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  color: #7a6a5e !important;
+}
+
+#edu-menu-page .quiz-menu-card > p::before,
+#edu-menu-page .quiz-menu-card > p::after {
+  content: "✦" !important;
+  color: rgba(202, 171, 137, 0.55) !important;
+  margin: 0 18px !important;
+  font-size: 16px !important;
+}
+
+#edu-menu-page .edu-menu-buttons {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px 22px !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+}
+
+#edu-menu-page .edu-menu-buttons .edu-card {
+  width: 100% !important;
+  height: 250px !important;
+  min-height: 250px !important;
+  padding: 18px 14px !important;
+  box-sizing: border-box !important;
+  border-radius: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: center !important;
+  box-shadow: 0 10px 22px rgba(89, 67, 47, 0.10) !important;
+  border: none !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+}
+
+#edu-menu-page .edu-menu-buttons .edu-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 26px rgba(89, 67, 47, 0.14) !important;
+}
+
+#edu-menu-page .edu-card-icon.image-icon-mode {
+  width: 132px !important;
+  height: 92px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 253, 248, 0.74) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  box-shadow: none !important;
+}
+
+#edu-menu-page .edu-card-icon.image-icon-mode .edu-handdrawn-img {
+  width: 126px !important;
+  height: 88px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 999px !important;
+  filter: drop-shadow(0 4px 8px rgba(80, 60, 40, 0.12)) !important;
+}
+
+#edu-menu-page .edu-card-text h3 {
+  margin: 0 0 8px !important;
+  font-size: 23px !important;
+  line-height: 1.25 !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  color: #3f342c !important;
+  letter-spacing: 1px !important;
+}
+
+#edu-menu-page .edu-card-text span {
+  display: block !important;
+  margin: 0 !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  color: rgba(63, 52, 44, 0.76) !important;
+  text-align: center !important;
+}
+
+#edu-menu-page .back-btn {
+  position: fixed !important;
+  left: 28px !important;
+  bottom: 24px !important;
+  z-index: 999 !important;
+  min-width: 150px !important;
+  padding: 12px 22px !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: #7b6046 !important;
+  color: #fffaf3 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 10px 22px rgba(75, 55, 38, 0.22) !important;
+}
+
+@media (max-height: 850px) {
+  #edu-menu-page .quiz-menu-card {
+    padding: 22px 30px 20px !important;
+  }
+  #edu-menu-page .quiz-menu-card h2 {
+    font-size: 32px !important;
+    margin-bottom: 6px !important;
+  }
+  #edu-menu-page .edu-title-book-icon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  #edu-menu-page .quiz-menu-card > p {
+    margin-bottom: 18px !important;
+  }
+  #edu-menu-page .edu-menu-buttons {
+    gap: 14px 18px !important;
+  }
+  #edu-menu-page .edu-menu-buttons .edu-card {
+    height: 210px !important;
+    min-height: 210px !important;
+    padding: 14px 10px !important;
+  }
+  #edu-menu-page .edu-card-icon.image-icon-mode {
+    width: 112px !important;
+    height: 78px !important;
+  }
+  #edu-menu-page .edu-card-icon.image-icon-mode .edu-handdrawn-img {
+    width: 108px !important;
+    height: 76px !important;
+  }
+  #edu-menu-page .edu-card-text h3 {
+    font-size: 19px !important;
+  }
+  #edu-menu-page .edu-card-text span {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  body.edu-menu-fit-page {
+    overflow-y: auto !important;
+  }
+  #edu-menu-page {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+  #edu-menu-page .quiz-menu-card {
+    height: auto !important;
+    max-height: none !important;
+  }
+  #edu-menu-page .edu-menu-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: auto !important;
+  }
+  #edu-menu-page .edu-menu-buttons .edu-card {
+    height: auto !important;
+    min-height: 170px !important;
+  }
+}
+
+
+/* =========================================================
+   衛教知識庫標題 icon 修正
+   貼在 style.css 最底部
+   ========================================================= */
+
+/* 隱藏原本怪怪的圖片 */
+#edu-menu-page .edu-title-book-icon {
+  display: none !important;
+}
+
+/* 標題整體對齊 */
+#edu-menu-page .quiz-menu-card h2 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+/* 新 SVG 小書本 */
+#edu-menu-page .edu-title-svg-icon {
+  width: 58px !important;
+  height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+}
+
+#edu-menu-page .edu-title-svg-icon svg {
+  width: 58px !important;
+  height: 48px !important;
+  display: block !important;
+}
+
+/* =========================================================
+   衛教闖關頁 - 寬版 + 全部按鈕一次看完 + 手繪圖片版
+   ========================================================= */
+
+#quiz-menu-page {
+  background: #f7f3ec !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+#quiz-menu-page .quiz-menu-wide-card {
+  width: min(1280px, 96vw) !important;
+  max-width: 1280px !important;
+  min-height: calc(100vh - 40px) !important;
+  max-height: calc(100vh - 40px) !important;
+  padding: 28px 34px 24px !important;
+  border-radius: 32px !important;
+  border: 1.5px solid #d8c3aa !important;
+  background: #fffaf3 !important;
+  box-shadow: 0 12px 30px rgba(111, 78, 55, 0.10) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 22px !important;
+  overflow: hidden !important;
+}
+
+/* header */
+#quiz-menu-page .quiz-brand-center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  text-align: left !important;
+}
+
+#quiz-menu-page .quiz-brand-icon.image-mode,
+#quiz-menu-page .quiz-topic-icon.image-mode,
+#quiz-menu-page .quiz-tip-icon.image-mode,
+#quiz-menu-page .quiz-level-icon.image-mode {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #f6eee3 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+#quiz-menu-page .quiz-brand-icon.image-mode {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+#quiz-menu-page .quiz-brand-icon.image-mode img {
+  width: 46px !important;
+  height: 46px !important;
+  object-fit: contain !important;
+}
+
+#quiz-menu-page .quiz-brand h2 {
+  margin: 0 0 8px !important;
+  font-size: 34px !important;
+  color: #3f342c !important;
+  font-weight: 900 !important;
+}
+
+#quiz-menu-page .quiz-brand p {
+  margin: 0 !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: #7a6a5e !important;
+}
+
+/* 主題框 */
+#quiz-menu-page .quiz-topic-box-wide {
+  display: grid !important;
+  grid-template-columns: 64px 1fr !important;
+  gap: 16px !important;
+  align-items: center !important;
+  width: min(900px, 100%) !important;
+  margin: 0 auto !important;
+  padding: 18px 22px !important;
+  border-radius: 22px !important;
+  background: #f8f0e5 !important;
+  border: 1.5px solid #dec8ad !important;
+}
+
+#quiz-menu-page .quiz-topic-icon.image-mode {
+  width: 58px !important;
+  height: 58px !important;
+}
+
+#quiz-menu-page .quiz-topic-icon.image-mode img {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+}
+
+#quiz-menu-page .quiz-topic-box small {
+  display: block !important;
+  margin-bottom: 6px !important;
+  font-size: 14px !important;
+  color: #8a7765 !important;
+}
+
+#quiz-menu-page .quiz-topic-box strong {
+  display: block !important;
+  font-size: 18px !important;
+  color: #4f4337 !important;
+  margin-bottom: 6px !important;
+}
+
+#quiz-menu-page .quiz-topic-box p {
+  margin: 0 !important;
+  font-size: 15px !important;
+  color: #8a7765 !important;
+}
+
+/* 三個按鈕橫排 */
+#quiz-menu-page .quiz-level-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 22px !important;
+  width: 100% !important;
+}
+
+#quiz-menu-page .horizontal-card {
+  min-height: 170px !important;
+  border: 0 !important;
+  border-radius: 28px !important;
+  padding: 22px 24px !important;
+  display: grid !important;
+  grid-template-columns: 92px 1fr 54px !important;
+  align-items: center !important;
+  gap: 16px !important;
+  text-align: left !important;
+  color: #fffaf3 !important;
+  box-shadow: 0 10px 20px rgba(87, 66, 48, 0.13) !important;
+  transition: 0.18s ease !important;
+}
+
+#quiz-menu-page .horizontal-card:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.03) !important;
+}
+
+#quiz-menu-page .quiz-level-easy { background: #b99f82 !important; }
+#quiz-menu-page .quiz-level-medium { background: #a98d72 !important; }
+#quiz-menu-page .quiz-level-hard { background: #887463 !important; }
+
+#quiz-menu-page .quiz-level-icon.image-mode {
+  width: 84px !important;
+  height: 84px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 250, 243, 0.18) !important;
+}
+
+#quiz-menu-page .quiz-level-icon.image-mode img {
+  width: 56px !important;
+  height: 56px !important;
+  object-fit: contain !important;
+}
+
+#quiz-menu-page .quiz-level-text strong {
+  display: block !important;
+  font-size: 34px !important;
+  line-height: 1.2 !important;
+  margin-bottom: 8px !important;
+}
+
+#quiz-menu-page .quiz-level-text small {
+  display: block !important;
+  font-size: 20px !important;
+  opacity: 0.95 !important;
+}
+
+#quiz-menu-page .quiz-level-arrow {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  background: rgba(255, 250, 243, 0.20) !important;
+}
+
+/* 提醒框 */
+#quiz-menu-page .quiz-tip-box-wide {
+  display: grid !important;
+  grid-template-columns: 48px 1fr !important;
+  gap: 14px !important;
+  align-items: center !important;
+  width: min(960px, 100%) !important;
+  margin: 0 auto !important;
+  padding: 18px 22px !important;
+  border-radius: 20px !important;
+  background: #fff7ea !important;
+  border: 1.5px solid #e0c6a7 !important;
+  color: #6f5c50 !important;
+}
+
+#quiz-menu-page .quiz-tip-icon.image-mode {
+  width: 44px !important;
+  height: 44px !important;
+  background: transparent !important;
+}
+
+#quiz-menu-page .quiz-tip-icon.image-mode img {
+  width: 34px !important;
+  height: 34px !important;
+  object-fit: contain !important;
+}
+
+#quiz-menu-page .quiz-tip-box p {
+  margin: 0 !important;
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+}
+
+/* 返回按鈕 */
+#quiz-menu-page .wide-back-btn {
+  margin: auto auto 0 auto !important;
+  padding: 13px 28px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #8f7664 !important;
+  color: #fffaf3 !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 18px rgba(75, 55, 38, 0.18) !important;
+}
+
+/* 平板以下才改直排 */
+@media (max-width: 1100px) {
+  #quiz-menu-page {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 20px !important;
+  }
+
+  #quiz-menu-page .quiz-menu-wide-card {
+    min-height: auto !important;
+    max-height: none !important;
+  }
+
+  #quiz-menu-page .quiz-level-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  #quiz-menu-page .horizontal-card {
+    grid-template-columns: 70px 1fr 40px !important;
+    min-height: 120px !important;
+  }
+
+  #quiz-menu-page .quiz-level-text strong {
+    font-size: 28px !important;
+  }
+
+  #quiz-menu-page .quiz-level-text small {
+    font-size: 16px !important;
+  }
+}

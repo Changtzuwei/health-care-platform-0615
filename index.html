@@ -5580,6 +5580,11 @@ html body.notranslate.home-redesign #home-page .phoebe-home-footer {
   <section id="record-page" class="page hidden">
     <div class="form-card">
 
+      <div class="record-title-row">
+        <h2 class="record-title">📝 身體紀錄</h2>
+        <span class="record-required-note">（身高、體重、血壓、脈搏為必填）</span>
+      </div>
+
       <div class="input-box">
         <label>身高（cm）</label>
         <input type="number" id="height" placeholder="例如：160">
@@ -6127,61 +6132,183 @@ html body.notranslate.home-redesign #home-page .phoebe-home-footer {
 
   <!-- 衛教闖關選單頁 -->
   <section id="quiz-menu-page" class="page hidden">
-    <div class="quiz-menu-card">
-      <h2>🧠 衛教闖關</h2>
+  <div class="quiz-menu-wide-card">
 
-      <p>
-        請選擇一個難度開始挑戰，完成題目後可以累積健康知識。
-      </p>
-
-      <div class="quiz-menu-buttons">
-        <button onclick="startQuiz('easy')">
-          🌱 簡單
-          <span>基本測驗</span>
-        </button>
-
-        <button onclick="startQuiz('medium')">
-          🌿 普通
-          <span>進階測驗</span>
-        </button>
-
-        <button onclick="startQuiz('hard')">
-          🌳 困難
-          <span>後階測驗</span>
-        </button>
+    <div class="quiz-menu-header">
+      <div class="quiz-brand quiz-brand-center">
+        <div class="quiz-brand-icon image-mode">
+          <img src="images/quiz/brain-handdrawn.png" alt="衛教闖關">
+        </div>
+        <div>
+          <h2>衛教闖關</h2>
+          <p>請選擇一個難度開始挑戰，完成題目後可以累積健康知識。</p>
+        </div>
       </div>
+    </div>
 
-      <div class="trend-tip">
-        <span class="tip-icon">小提醒：</span>
-        <span>定期量測與記錄，有助於掌握身體變化，維持健康生活。</span>
+    <div class="quiz-topic-box quiz-topic-box-wide">
+      <div class="quiz-topic-icon image-mode">
+        <img src="images/quiz/clipboard-handdrawn.png" alt="主題">
       </div>
+      <div>
+        <small>目前題庫主題：</small>
+        <strong id="quiz-topic-label">綜合衛教</strong>
+        <p>請選擇難度開始挑戰。</p>
+      </div>
+    </div>
 
-      <button onclick="showPage('edu-menu-page')">
-        ← 回衛教頁面
+    <div class="quiz-level-row">
+      <button class="quiz-level-card quiz-level-easy horizontal-card" data-level="easy" onclick="startQuiz('easy')" type="button">
+        <div class="quiz-level-icon image-mode">
+          <img src="images/quiz/sprout-handdrawn.png" alt="簡單">
+        </div>
+        <div class="quiz-level-text">
+          <strong>簡單</strong>
+          <small>基本測驗</small>
+        </div>
+        <div class="quiz-level-arrow">→</div>
+      </button>
+
+      <button class="quiz-level-card quiz-level-medium horizontal-card" data-level="medium" onclick="startQuiz('medium')" type="button">
+        <div class="quiz-level-icon image-mode">
+          <img src="images/quiz/leaf-handdrawn.png" alt="普通">
+        </div>
+        <div class="quiz-level-text">
+          <strong>普通</strong>
+          <small>進階測驗</small>
+        </div>
+        <div class="quiz-level-arrow">→</div>
+      </button>
+
+      <button class="quiz-level-card quiz-level-hard horizontal-card" data-level="hard" onclick="startQuiz('hard')" type="button">
+        <div class="quiz-level-icon image-mode">
+          <img src="images/quiz/tree-handdrawn.png" alt="困難">
+        </div>
+        <div class="quiz-level-text">
+          <strong>困難</strong>
+          <small>後階測驗</small>
+        </div>
+        <div class="quiz-level-arrow">→</div>
       </button>
     </div>
-  </section>
+
+    <div class="quiz-tip-box quiz-tip-box-wide">
+      <div class="quiz-tip-icon image-mode">
+        <img src="images/quiz/lightbulb-handdrawn.png" alt="提醒">
+      </div>
+      <p>小提醒：定期量測與記錄，有助於掌握身體變化，維持健康生活。</p>
+    </div>
+
+    <button class="quiz-back-btn wide-back-btn" onclick="showPage('edu-menu-page')" type="button">
+      ← 回衛教頁面
+    </button>
+
+  </div>
+</section>
 
   <!-- 知識問答頁 -->
   <section id="quiz-page" class="page hidden">
-    <div class="quiz-card">
-      <h2>🧠 知識挑戰</h2>
+    <div class="quiz-redesign-shell quiz-taking-screen">
 
-      <div id="quiz-question"></div>
+      <aside class="quiz-redesign-left">
+        <div class="quiz-brand">
+          <div class="quiz-brand-icon">🧠</div>
+          <div>
+            <h2>衛教闖關</h2>
+            <p>選擇難度並完成 10 題挑戰。</p>
+          </div>
+        </div>
 
-      <div id="answer-explanation" class="answer-explanation hidden"></div>
+        <div class="quiz-topic-box">
+          <span class="quiz-topic-icon">📋</span>
+          <div>
+            <small>目前題庫主題：</small>
+            <strong id="quiz-topic-label-side">綜合衛教</strong>
+            <p>答對 7 題以上即可通過。</p>
+          </div>
+        </div>
 
-      <div class="answer-area">
-        <div id="quiz-options"></div>
-      </div>
+        <div class="quiz-level-stack">
+          <button class="quiz-level-card quiz-level-easy" data-level="easy" onclick="startQuiz('easy')" type="button">
+            <span class="quiz-level-icon">🌱</span>
+            <span class="quiz-level-text">
+              <strong>簡單</strong>
+              <small>基本測驗</small>
+            </span>
+            <span class="quiz-level-arrow">›</span>
+          </button>
 
-      <button class="next-btn" onclick="nextQuestion()">➜</button>
+          <button class="quiz-level-card quiz-level-medium" data-level="medium" onclick="startQuiz('medium')" type="button">
+            <span class="quiz-level-icon">🌿</span>
+            <span class="quiz-level-text">
+              <strong>普通</strong>
+              <small>進階測驗</small>
+            </span>
+            <span class="quiz-level-arrow">›</span>
+          </button>
 
-      <button class="home-circle" onclick="showPage('quiz-menu-page')">
-        先回去<br>闖關頁面!
-      </button>
+          <button class="quiz-level-card quiz-level-hard" data-level="hard" onclick="startQuiz('hard')" type="button">
+            <span class="quiz-level-icon">🌳</span>
+            <span class="quiz-level-text">
+              <strong>困難</strong>
+              <small>後階測驗</small>
+            </span>
+            <span class="quiz-level-arrow">›</span>
+          </button>
+        </div>
+
+        <div class="quiz-tip-box">
+          <span>💡</span>
+          <p>每次闖關共 10 題，答對 7 題含以上即可通過！</p>
+        </div>
+
+        <button class="quiz-back-btn" onclick="showPage('quiz-menu-page')" type="button">
+          ← 回闖關頁面
+        </button>
+      </aside>
+
+      <main class="quiz-redesign-main">
+        <div class="quiz-main-top">
+          <div id="quiz-progress" class="quiz-progress">
+            🧠 綜合衛教｜簡單：0 / 10 題
+          </div>
+
+          <button class="quiz-end-btn" onclick="showPage('quiz-menu-page')" type="button">
+            結束闖關 ×
+          </button>
+        </div>
+
+        <div class="quiz-progress-track">
+          <div id="quiz-progress-fill" class="quiz-progress-fill"></div>
+          <span id="quiz-progress-percent">0%</span>
+        </div>
+
+        <div class="quiz-question-panel">
+          <div class="quiz-question-meta">
+            第 <span id="quiz-current-number">1</span> 題 / 共 <span id="quiz-total-number">10</span> 題
+          </div>
+
+          <div id="quiz-question" class="quiz-question-box"></div>
+
+          <div id="quiz-options" class="quiz-options-grid"></div>
+        </div>
+
+        <div id="answer-explanation" class="answer-explanation hidden"></div>
+
+        <div class="quiz-nav-row">
+          <button id="quiz-prev-btn" class="quiz-nav-btn" onclick="prevQuestion()" type="button">
+            ← 上一題
+          </button>
+
+          <button id="quiz-next-btn" class="quiz-nav-btn quiz-nav-primary" onclick="nextQuestion()" type="button">
+            下一題 →
+          </button>
+        </div>
+      </main>
+
     </div>
   </section>
+
 
   <!-- 心情彈窗 -->
   <div id="mood-popup" class="mood-popup hidden">
